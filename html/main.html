@@ -17,18 +17,51 @@
                 <span class="H-icon H-display-block H-position-absolute H-float-left H-z-index-10 H-vertical-middle" style="height: 100% !important;"><i class="H-iconfont H-icon-search H-font-size-16"></i></span>
                 <input type="text" name="keyword" placeholder="查书..." id="H-header-search-text" class="H-width-100-percent H-box-sizing-border-box H-border-none H-padding-horizontal-both-10 H-font-size-14 H-padding-vertical-both-8 H-theme-background-color-transparent H-theme-font-color-white H-padding-horizontal-left-25 H-vertical-middle" />
             </div>
-            <span class="H-icon H-position-relative H-display-inline-block H-vertical-middle H-theme-font-color-white H-padding-horizontal-right-10 H-z-index-100"><i class="H-iconfont H-icon-scanning H-font-size-20 H-vertical-middle"></i></span>
+            <span id="scanning" class="H-icon H-position-relative H-display-inline-block H-vertical-middle H-theme-font-color-white H-padding-horizontal-right-10 H-z-index-100"><i class="H-iconfont H-icon-scanning H-font-size-20 H-vertical-middle"></i></span>
         </div>
     </header>
     
-    <script src="../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../script/H.js"></script>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/lib/FNScanner.js"></script>
     <script type="text/javascript">
-        
+        function getDoubanIsbn(isbnCode){
+            H.toastLoading();
+            H.ajax(function(ret, err){
+                H.closeToast();
+                if(err){
+                    H.toastCore('<span class="H-display-block H-line-height-normal"><i class="H-iconfont H-icon-error H-font-size-42"></i></span>', "查询书籍信息失败", 2000);
+                    return false;
+                }
+                H.alert(H.jsonToStr(ret));
+            },'https://api.douban.com/v2/book/isbn/'+isbnCode,'get');
+            
+        }
         H.ready(function () {
             H.dblclickToCloseApp();
             H.openFrameNavOrFoot("main-body", "main_body.html", "#header");
             H.on(H.D("#avatar"), "click", function (e) {
         		H.openWin('ucenter', 'ucenter.html');
+            });
+            H.on(H.D("#scanning"), "click", function (e) {
+                $FNScanner.openScanner('',false,false,{},function(ret,err){
+                    if (ret) {
+                        switch (ret.eventType){
+                            case 'cancel':
+                                H.toast(null, '扫码操作已取消！', 2000);
+                                break;
+                            case 'success':
+                                H.toast(null, '扫码成功！', 2000);
+                                getDoubanIsbn(ret.content);
+                                break;
+                            case 'fail':
+                                H.toast(null, '扫码失败！', 2000);
+                                break;
+                        }
+                    } else {
+                        H.toast(null, '错误:'+err.msg, 2000);
+                    }
+                });
             });
         });
     </script>
