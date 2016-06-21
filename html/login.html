@@ -38,9 +38,7 @@
     <script type="text/javascript">
     	H.ready(function () {
         	H.dblclickToCloseApp();
-        	H.fixStatusBar(function(){
-            	H.setStatusBarStyle('dark','#5cb85c');
-            },'.fix');
+        	H.setStatusBarStyle('dark','#5cb85c');
         	H.on(H.D("#login_btn"), "click", function (e) {
         		H.openWin('main', 'main.html');
         		H.closeWin('login');

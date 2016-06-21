@@ -84,9 +84,7 @@
         }
         H.ready(function () {
             H.dblclickToCloseApp();
-            H.fixStatusBar(function(){
-            	H.setStatusBarStyle('dark','#5cb85c');
-            },'#header');
+            H.setStatusBarStyle('dark','#5cb85c');
             H.on(H.D("#avatar"), "click", function (e) {
         		H.openWin('ucenter', 'ucenter.html');
             });
