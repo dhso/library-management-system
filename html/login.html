@@ -10,7 +10,7 @@
         body { background: url(../image/login_bg.jpg) no-repeat left top; background-size: cover; }
     </style>
 </head>
-<body class="H-height-100-percent H-box-sizing-border-box H-overflow-hidden login">
+<body id="login" class="H-height-100-percent H-box-sizing-border-box H-overflow-hidden">
     <div class="fix">
         <div class="H-horizontal-center H-padding-vertical-both-25">
             <div class="H-text-align-center">
@@ -38,6 +38,9 @@
     <script type="text/javascript">
     	H.ready(function () {
         	H.dblclickToCloseApp();
+        	H.fixStatusBar(function(){
+            	H.setStatusBarStyle('dark','#5cb85c');
+            },'.fix');
         	H.on(H.D("#login_btn"), "click", function (e) {
         		H.openWin('main', 'main.html');
         		H.closeWin('login');
